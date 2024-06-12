@@ -1,0 +1,22 @@
+server:
+  port : 8082
+
+spring:
+  jpa:
+    show-sql: true # show SQL statements in the console
+    properties:
+      hibernate:
+        formatSql: true # format SQL statements for readability
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/moviedb
+    username: your_username
+    password: your_password
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+logging:
+  level:
+    org: debug

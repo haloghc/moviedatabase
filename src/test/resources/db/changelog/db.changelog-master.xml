@@ -1,0 +1,146 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="youme">
+        <createTable tableName="movies">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="release_date" type="DATE"/>
+        </createTable>
+
+        <createTable tableName="actors">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="genres">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="movie_actors">
+            <column name="movie_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="actor_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="movie_genres">
+            <column name="movie_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="genre_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="movie_actors"
+                                 baseColumnNames="movie_id"
+                                 referencedTableName="movies"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_movie_actor_movie"
+                                 onDelete="CASCADE"
+        />
+
+        <addForeignKeyConstraint baseTableName="movie_genres"
+                                 baseColumnNames="movie_id"
+                                 referencedTableName="movies"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_movie_genre_movie"
+                                 onDelete="CASCADE"
+        />
+
+        <addPrimaryKey columnNames="movie_id, actor_id"
+                       constraintName="pk_movie_actors"
+                       tableName="movie_actors"
+                       validate="true"/>
+
+        <addPrimaryKey columnNames="movie_id, genre_id"
+                       constraintName="pk_movie_genres"
+                       tableName="movie_genres"
+                       validate="true"/>
+    </changeSet>
+
+
+    <changeSet id="2" author="youme">
+        <insert tableName="movies">
+            <column name="id" value="1" />
+            <column name="title" value="Dune 1" />
+            <column name="description" value="Dune 1" />
+            <column name="release_date" value="2022-05-05" />
+        </insert>
+        <insert tableName="movies">
+            <column name="id" value="2" />
+            <column name="title" value="Dune 2" />
+            <column name="description" value="Dune 2" />
+            <column name="release_date" value="2024-05-05" />
+        </insert>
+        <insert tableName="actors">
+            <column name="id" value="1" />
+            <column name="name" value="Actor 1" />
+        </insert>
+        <insert tableName="actors">
+            <column name="id" value="2" />
+            <column name="name" value="Actor 2" />
+        </insert>
+        <insert tableName="genres">
+            <column name="id" value="1" />
+            <column name="name" value="Action" />
+        </insert>
+        <insert tableName="genres">
+            <column name="id" value="2" />
+            <column name="name" value="Sci-fi" />
+        </insert>
+
+        <insert tableName="movie_actors">
+            <column name="movie_id" value="1" />
+            <column name="actor_id" value="1" />
+        </insert>
+        <insert tableName="movie_actors">
+            <column name="movie_id" value="1" />
+            <column name="actor_id" value="2" />
+        </insert>
+
+        <insert tableName="movie_actors">
+            <column name="movie_id" value="2" />
+            <column name="actor_id" value="2" />
+        </insert>
+
+        <insert tableName="movie_genres">
+            <column name="movie_id" value="1" />
+            <column name="genre_id" value="1" />
+        </insert>
+        <insert tableName="movie_genres">
+            <column name="movie_id" value="1" />
+            <column name="genre_id" value="2" />
+        </insert>
+
+        <insert tableName="movie_genres">
+            <column name="movie_id" value="2" />
+            <column name="genre_id" value="2" />
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>
